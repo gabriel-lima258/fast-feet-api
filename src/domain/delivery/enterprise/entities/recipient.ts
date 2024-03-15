@@ -6,7 +6,10 @@ import dayjs from 'dayjs'
 export interface RecipientProps {
   name: string
   email: string
-  localization: string
+  address: string
+  city: string
+  state: string
+  cep: string
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -25,12 +28,44 @@ export class Recipient extends Entity<RecipientProps> {
     return this.props.email
   }
 
-  get localization() {
-    return this.props.localization
+  set email(email: string) {
+    this.props.email = email
+    this.touch()
   }
 
-  set localization(localization: string) {
-    this.props.localization = localization
+  get address() {
+    return this.props.address
+  }
+
+  set address(address: string) {
+    this.props.address = address
+    this.touch()
+  }
+
+  get city() {
+    return this.props.city
+  }
+
+  set city(city: string) {
+    this.props.city = city
+    this.touch()
+  }
+
+  get state() {
+    return this.props.state
+  }
+
+  set state(state: string) {
+    this.props.state = state
+    this.touch()
+  }
+
+  get cep() {
+    return this.props.cep
+  }
+
+  set cep(cep: string) {
+    this.props.cep = cep
     this.touch()
   }
 

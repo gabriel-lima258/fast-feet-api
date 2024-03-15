@@ -6,12 +6,9 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 import { HashGenerator } from '../../cryptography/hash-generator'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 
-type UserRole = 'ADMIN' | 'DELIVERY-MAN'
-
 interface EditUserUseCaseRequest {
   userId: string
   password: string
-  role: UserRole
 }
 
 type EditUserUseCaseResponse = Either<
@@ -31,17 +28,12 @@ export class EditUserUseCase {
   async execute({
     userId,
     password,
-    role,
   }: EditUserUseCaseRequest): Promise<EditUserUseCaseResponse> {
     // finding the user by id
     const user = await this.userRepository.findById(userId)
 
     if (!user) {
       return left(new ResourceNotFoundError())
-    }
-
-    if (role !== user.role) {
-      return left(new NotAllowedError())
     }
 
     const hashedPassword = await this.hashGenerator.hash(password)

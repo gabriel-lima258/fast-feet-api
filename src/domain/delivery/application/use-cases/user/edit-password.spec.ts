@@ -1,8 +1,7 @@
 import { InMemoryUserRepository } from 'test/repositories/in-memory-user-repository'
 import { FakeHasher } from 'test/cryptography/fake-hasher'
 import { makeUser } from 'test/factories/make-user'
-import { EditUserUseCase } from './edit-password-use-case'
-import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
+import { EditUserUseCase } from './edit-password'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let fakeHasher: FakeHasher
@@ -19,7 +18,6 @@ describe('Edit User Password Use Case', () => {
     const user = makeUser({
       cpf: '08507080881',
       password: await fakeHasher.hash('123456'),
-      role: 'ADMIN',
     })
 
     const newPassword = '1234567'
@@ -29,7 +27,6 @@ describe('Edit User Password Use Case', () => {
     const result = await sut.execute({
       userId: user.id.toString(),
       password: newPassword,
-      role: 'ADMIN',
     })
 
     const hashedNewPassword = await fakeHasher.hash(newPassword)
@@ -37,25 +34,5 @@ describe('Edit User Password Use Case', () => {
     // expect success and a user as response
     expect(result.isRight()).toBe(true)
     expect(inMemoryUserRepository.items[0].password).toEqual(hashedNewPassword)
-  })
-
-  it('should not be able to edit a password if it is not a admin', async () => {
-    const user = makeUser({
-      cpf: '08507080881',
-      password: await fakeHasher.hash('123456'),
-      role: 'ADMIN',
-    })
-
-    inMemoryUserRepository.items.push(user)
-
-    const result = await sut.execute({
-      userId: user.id.toString(),
-      password: user.password,
-      role: 'DELIVERY-MAN',
-    })
-
-    // expect the response be a error with an instance
-    expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })
