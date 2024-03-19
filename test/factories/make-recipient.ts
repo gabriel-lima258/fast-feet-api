@@ -14,11 +14,13 @@ export function makeRecipient(
   const recipient = Recipient.create(
     {
       name: faker.person.fullName(),
-      email: faker.internet.email(),
-      address: faker.location.streetAddress(),
+      street: faker.location.streetAddress(),
+      number: faker.location.buildingNumber(),
       city: faker.location.city(),
       state: faker.location.state(),
       cep: faker.location.countryCode(),
+      latitude: faker.location.latitude(),
+      longitude: faker.location.longitude(),
       ...override,
     },
     id, // if exist an id get it

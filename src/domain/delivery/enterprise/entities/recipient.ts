@@ -5,11 +5,13 @@ import dayjs from 'dayjs'
 
 export interface RecipientProps {
   name: string
-  email: string
-  address: string
+  street: string
+  number: string
   city: string
   state: string
   cep: string
+  latitude: number
+  longitude: number
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -24,21 +26,21 @@ export class Recipient extends Entity<RecipientProps> {
     this.touch()
   }
 
-  get email() {
-    return this.props.email
+  get street() {
+    return this.props.street
   }
 
-  set email(email: string) {
-    this.props.email = email
+  set street(street: string) {
+    this.props.street = street
     this.touch()
   }
 
-  get address() {
-    return this.props.address
+  get number() {
+    return this.props.number
   }
 
-  set address(address: string) {
-    this.props.address = address
+  set number(number: string) {
+    this.props.number = number
     this.touch()
   }
 
@@ -66,6 +68,24 @@ export class Recipient extends Entity<RecipientProps> {
 
   set cep(cep: string) {
     this.props.cep = cep
+    this.touch()
+  }
+
+  get latitude() {
+    return this.props.latitude
+  }
+
+  set latitude(latitude: number) {
+    this.props.latitude = latitude
+    this.touch()
+  }
+
+  get longitude() {
+    return this.props.longitude
+  }
+
+  set longitude(longitude: number) {
+    this.props.longitude = longitude
     this.touch()
   }
 

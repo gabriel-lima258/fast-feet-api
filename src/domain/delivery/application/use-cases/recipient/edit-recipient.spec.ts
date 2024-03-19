@@ -1,62 +1,77 @@
-import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient-repository'
+import { makeAdmin } from 'test/factories/make-admin'
 import { makeRecipient } from 'test/factories/make-recipient'
+import { InMemoryAdminRepository } from 'test/repositories/in-memory-admin-repository'
+import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient-repository'
 import { EditRecipientUseCase } from './edit-recipient'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 
 let inMemoryRecipientRepository: InMemoryRecipientRepository
-let sut: EditRecipientUseCase // sut => system under test
+let inMemoryAdminRepository: InMemoryAdminRepository
+let sut: EditRecipientUseCase
 
-describe('Edit Recipient Use Case', () => {
+describe('Edit Recipient', () => {
   beforeEach(() => {
     inMemoryRecipientRepository = new InMemoryRecipientRepository()
-    sut = new EditRecipientUseCase(inMemoryRecipientRepository)
+    inMemoryAdminRepository = new InMemoryAdminRepository()
+    sut = new EditRecipientUseCase(
+      inMemoryAdminRepository,
+      inMemoryRecipientRepository,
+    )
   })
 
-  it('should be able to edit a password from recipient', async () => {
-    const recipient = makeRecipient({}, new UniqueEntityID('recipient-1'))
+  it('should be able to edit an existing recipient', async () => {
+    const administrator = makeAdmin()
+
+    inMemoryAdminRepository.items.push(administrator)
+
+    const recipient = makeRecipient()
 
     inMemoryRecipientRepository.items.push(recipient)
 
     const result = await sut.execute({
-      recipientId: recipient.id.toValue(),
-      name: 'Gabriel Lima',
-      email: 'gabriel58221@gmail.com',
-      address: 'Qri 18 Casa 10',
-      city: 'Gama',
-      state: 'DF',
-      cep: '72593210',
+      adminId: administrator.id.toString(),
+      recipientId: recipient.id.toString(),
+      name: 'John',
+      street: 'Rua do teste',
+      number: '123AD',
+      city: 'CWB',
+      state: 'PR',
+      cep: '72953210',
+      latitude: 123457.8,
+      longitude: 45678.8,
     })
 
-    // expect success and a recipient as response
     expect(result.isRight()).toBe(true)
     expect(inMemoryRecipientRepository.items[0]).toMatchObject({
-      name: 'Gabriel Lima',
-      email: 'gabriel58221@gmail.com',
-      address: 'Qri 18 Casa 10',
-      city: 'Gama',
-      state: 'DF',
-      cep: '72593210',
+      name: 'John',
+      cep: '72953210',
     })
   })
 
-  it('should not be able to edit a recipient from different id', async () => {
-    const recipient = makeRecipient({}, new UniqueEntityID('recipient-1'))
+  it('should not be able to delete an existing recipient with non existing administrador', async () => {
+    const admin = makeAdmin()
+
+    inMemoryAdminRepository.items.push(admin)
+
+    const recipient = makeRecipient()
 
     inMemoryRecipientRepository.items.push(recipient)
 
     const result = await sut.execute({
-      recipientId: 'recipient-2',
-      name: 'Gabriel Lima',
-      email: 'gabriel58221@gmail.com',
-      address: 'Qri 18 Casa 10',
-      city: 'Gama',
-      state: 'DF',
-      cep: '72593210',
+      adminId: 'non-existing',
+      recipientId: recipient.id.toString(),
+      name: 'John',
+      street: 'Rua do teste',
+      number: '123AD',
+      city: 'CWB',
+      state: 'PR',
+      cep: '72953210',
+      latitude: 123457.8,
+      longitude: 45678.8,
     })
 
-    // expect the response be a error with an instance
     expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
+    expect(inMemoryRecipientRepository.items).toHaveLength(1)
   })
 })

@@ -1,3 +1,4 @@
+import { PaginationParams } from '@/core/repositories/pagination-params'
 import { Recipient } from '../../enterprise/entities/recipient'
 
 export abstract class RecipientRepository {
@@ -6,4 +7,5 @@ export abstract class RecipientRepository {
   abstract delete(recipient: Recipient): Promise<void>
   abstract findById(id: string): Promise<Recipient | null>
   abstract findByCep(cep: string): Promise<Recipient | null>
+  abstract findMany(params: PaginationParams): Promise<Recipient[]>
 }
