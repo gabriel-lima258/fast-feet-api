@@ -41,5 +41,6 @@ describe('Create Admin (E2E)', () => {
     })
 
     expect(userOnDatabase).toBeTruthy()
+    expect(userOnDatabase?.name).toEqual('Gabriel')
   })
 })

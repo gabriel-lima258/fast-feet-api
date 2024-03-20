@@ -3,6 +3,7 @@ import {
   DeliveryMan,
   DeliveryManProps,
 } from '@/domain/delivery/enterprise/entities/deliveryman'
+import { PrismaDeliveryManMapper } from '@/infra/database/prisma/mappers/prisma-delivery-man-mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { faker } from '@faker-js/faker'
 import { Injectable } from '@nestjs/common'
@@ -38,7 +39,7 @@ export class DeliveryManFactory {
     const DeliveryMan = makeDeliveryMan(data)
 
     // setting DB to entity
-    await this.prisma.DeliveryMan.create({
+    await this.prisma.user.create({
       data: PrismaDeliveryManMapper.toPrisma(DeliveryMan),
     })
 
