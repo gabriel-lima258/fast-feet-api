@@ -8,6 +8,7 @@ import {
   Param,
   Body,
   BadRequestException,
+  Patch,
 } from '@nestjs/common'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../../pipes/zod-vaidation.pipe'
@@ -33,7 +34,7 @@ export class ChangePasswordDeliveryManController {
     private changePasswordDeliveryMan: ChangePasswordDeliverymanUseCase,
   ) {}
 
-  @Put()
+  @Patch()
   @HttpCode(204)
   async handle(
     @Param('id') deliverymanId: string,

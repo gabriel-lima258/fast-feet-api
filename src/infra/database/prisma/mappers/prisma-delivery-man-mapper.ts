@@ -12,6 +12,7 @@ export class PrismaDeliveryManMapper {
         cpf: raw.cpf,
         password: raw.password,
         phone: raw.phone,
+        createdAt: raw.createdAt,
       },
       new UniqueEntityID(raw.id),
     )
@@ -25,6 +26,7 @@ export class PrismaDeliveryManMapper {
       cpf: deliveryMan.cpf,
       password: deliveryMan.password,
       phone: deliveryMan.phone,
+      createdAt: deliveryMan.createdAt,
     }
   }
 }

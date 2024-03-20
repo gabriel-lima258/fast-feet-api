@@ -8,7 +8,7 @@ import request from 'supertest'
 import { AdminFactory } from 'test/factories/make-admin'
 import { DeliveryManFactory } from 'test/factories/make-delivery-man'
 
-describe('Edit Password Delivery Man (E2E)', () => {
+describe('Edit Delivery Man (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let adminFactory: AdminFactory
@@ -46,11 +46,13 @@ describe('Edit Password Delivery Man (E2E)', () => {
 
     // create a new deliveryman
     const response = await request(app.getHttpServer())
-      .patch(`/deliverymans/${deliverymanId}`)
+      .put(`/deliverymans/${deliverymanId}`)
       .set('Authorization', `Bearer ${accessToken}`) // set authorization
       .send({
-        password: '12345678',
-        confirmPassword: '12345678',
+        name: 'Matheus',
+        email: 'matheus58221@gmail.com',
+        cpf: '08507088982',
+        phone: '992632009',
       })
 
     expect(response.statusCode).toBe(204)
@@ -58,7 +60,7 @@ describe('Edit Password Delivery Man (E2E)', () => {
     // verify if the deliveryman created is on database by id
     const deliverymanOnDatabase = await prisma.user.findUnique({
       where: {
-        id: deliveryman.id.toString(),
+        cpf: '08507088982',
       },
     })
 
