@@ -16,7 +16,7 @@ export function makeDeliveryMan(
     {
       name: faker.person.fullName(),
       email: faker.internet.email(),
-      cpf: faker.number.int.toString(),
+      cpf: faker.lorem.word(),
       phone: faker.phone.number.toString(),
       password: faker.internet.password(),
       ...override,

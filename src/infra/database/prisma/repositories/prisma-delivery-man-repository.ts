@@ -1,5 +1,3 @@
-import { AdminRepository } from '@/domain/delivery/application/repositories/admin-repository'
-import { Admin } from '@/domain/delivery/enterprise/entities/admin'
 import { Injectable } from '@nestjs/common'
 import { PrismaAdminMapper } from '../mappers/prisma-admin-mapper'
 import { PrismaService } from '../prisma.service'
