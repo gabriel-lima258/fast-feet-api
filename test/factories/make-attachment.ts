@@ -5,6 +5,8 @@ import {
   Attachment,
   AttachmentProps,
 } from '@/domain/delivery/enterprise/entities/attachment'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
 
 export function makeAttachment(
   override: Partial<AttachmentProps> = {},
@@ -22,19 +24,19 @@ export function makeAttachment(
   return attachment
 }
 
-/* @Injectable()
+@Injectable()
 export class AttachmentFactory {
   constructor(private prisma: PrismaService) {}
 
   async makePrismaAttachment(
     data: Partial<AttachmentProps> = {},
   ): Promise<Attachment> {
-    const attachment = makeAttachment(data);
+    const attachment = makeAttachment(data)
 
     await this.prisma.attachment.create({
       data: PrismaAttachmentMapper.toPrisma(attachment),
-    });
+    })
 
-    return attachment;
+    return attachment
   }
-} */
+}

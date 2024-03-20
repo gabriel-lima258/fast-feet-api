@@ -4,6 +4,8 @@ import {
   Recipient,
   RecipientProps,
 } from '@/domain/delivery/enterprise/entities/recipient'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
 
 // factory domain for unit tests
 // partial transform any props opcional
@@ -30,11 +32,13 @@ export function makeRecipient(
 }
 
 // factory for e2e tests
-/* @Injectable()
+@Injectable()
 export class RecipientFactory {
   constructor(private prisma: PrismaService) {}
 
-  async makePrismaRecipient(data: Partial<RecipientProps> = {}): Promise<Recipient> {
+  async makePrismaRecipient(
+    data: Partial<RecipientProps> = {},
+  ): Promise<Recipient> {
     // get data from domain
     const recipient = makeRecipient(data)
 
@@ -45,4 +49,4 @@ export class RecipientFactory {
 
     return recipient
   }
-} */
+}

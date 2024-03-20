@@ -3,6 +3,8 @@ import {
   DeliveryAttachment,
   DeliveryAttachmentProps,
 } from '@/domain/delivery/enterprise/entities/delivery-attachment'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
 
 export function makeDeliveryAttachment(
   override: Partial<DeliveryAttachmentProps> = {},
@@ -20,14 +22,14 @@ export function makeDeliveryAttachment(
   return deliveryAttachment
 }
 
-/* @Injectable()
+@Injectable()
 export class DeliveryAttachmentFactory {
   constructor(private prisma: PrismaService) {}
 
   async makePrismaDeliveryAttachment(
     data: Partial<DeliveryAttachmentProps> = {},
   ): Promise<DeliveryAttachment> {
-    const deliveryAttachment = makeDeliveryAttachment(data);
+    const deliveryAttachment = makeDeliveryAttachment(data)
 
     await this.prisma.attachment.update({
       where: {
@@ -36,8 +38,8 @@ export class DeliveryAttachmentFactory {
       data: {
         deliverieId: deliveryAttachment.deliveryId.toString(),
       },
-    });
+    })
 
-    return deliveryAttachment;
+    return deliveryAttachment
   }
-} */
+}

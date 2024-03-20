@@ -3,7 +3,9 @@ import {
   DeliveryMan,
   DeliveryManProps,
 } from '@/domain/delivery/enterprise/entities/deliveryman'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { faker } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
 
 export function makeDeliveryMan(
   override: Partial<DeliveryManProps> = {},
@@ -25,11 +27,13 @@ export function makeDeliveryMan(
 }
 
 // factory for e2e tests
-/* @Injectable()
+@Injectable()
 export class DeliveryManFactory {
   constructor(private prisma: PrismaService) {}
 
-  async makePrismaDeliveryMan(data: Partial<DeliveryManProps> = {}): Promise<DeliveryMan> {
+  async makePrismaDeliveryMan(
+    data: Partial<DeliveryManProps> = {},
+  ): Promise<DeliveryMan> {
     // get data from domain
     const DeliveryMan = makeDeliveryMan(data)
 
@@ -40,4 +44,4 @@ export class DeliveryManFactory {
 
     return DeliveryMan
   }
-} */
+}

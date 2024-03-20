@@ -4,6 +4,8 @@ import {
   Notification,
   NotificationProps,
 } from '@/domain/notification/enterprise/entities/notification'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
 
 // partial transform any props opcional
 export function makeNotification(
@@ -23,7 +25,7 @@ export function makeNotification(
   return notification
 }
 
-/* @Injectable()
+@Injectable()
 export class NotificationFactory {
   constructor(private prisma: PrismaService) {}
 
@@ -40,4 +42,4 @@ export class NotificationFactory {
 
     return notification
   }
-} */
+}

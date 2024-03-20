@@ -1,6 +1,9 @@
 import { faker } from '@faker-js/faker'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { AdminProps, Admin } from '@/domain/delivery/enterprise/entities/admin'
+import { PrismaAdminMapper } from '@/infra/database/prisma/mappers/prisma-admin-mapper'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
 
 // factory domain for unit tests
 // partial transform any props opcional
@@ -24,7 +27,7 @@ export function makeAdmin(
 }
 
 // factory for e2e tests
-/* @Injectable()
+@Injectable()
 export class AdminFactory {
   constructor(private prisma: PrismaService) {}
 
@@ -33,10 +36,10 @@ export class AdminFactory {
     const admin = makeAdmin(data)
 
     // setting DB to entity
-    await this.prisma.admin.create({
+    await this.prisma.user.create({
       data: PrismaAdminMapper.toPrisma(admin),
     })
 
     return admin
   }
-} */
+}

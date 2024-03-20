@@ -4,6 +4,8 @@ import {
   Delivery,
   DeliveryProps,
 } from '@/domain/delivery/enterprise/entities/delivery'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
 
 // factory domain for unit tests
 // partial transform any props opcional
@@ -25,11 +27,13 @@ export function makeDelivery(
 }
 
 // factory for e2e tests
-/* @Injectable()
+@Injectable()
 export class DeliveryFactory {
   constructor(private prisma: PrismaService) {}
 
-  async makePrismaDelivery(data: Partial<DeliveryProps> = {}): Promise<Delivery> {
+  async makePrismaDelivery(
+    data: Partial<DeliveryProps> = {},
+  ): Promise<Delivery> {
     // get data from domain
     const delivery = makeDelivery(data)
 
@@ -40,4 +44,4 @@ export class DeliveryFactory {
 
     return delivery
   }
-} */
+}
