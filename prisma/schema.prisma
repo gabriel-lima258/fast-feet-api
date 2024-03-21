@@ -34,17 +34,10 @@ model User {
   @@map("users")
 }
 
-enum DeliveryStatus {
-  Delivered
-  Returned
-  PickedUp
-  Waiting
-}
-
 model Delivery {
   id          String    @id @default(uuid())
   title       String
-  status      DeliveryStatus
+  status      String
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime? @map("updated_at")
   postedAt    DateTime? @map("posted_at")
