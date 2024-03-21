@@ -12,6 +12,7 @@ export class PrismaAdminMapper {
         cpf: raw.cpf,
         password: raw.password,
         phone: raw.phone,
+        createdAt: raw.createdAt,
       },
       new UniqueEntityID(raw.id),
     )
@@ -25,6 +26,7 @@ export class PrismaAdminMapper {
       cpf: Admin.cpf,
       password: Admin.password,
       phone: Admin.phone,
+      createdAt: Admin.createdAt,
     }
   }
 }

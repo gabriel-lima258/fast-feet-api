@@ -6,6 +6,7 @@ import {
 } from '@/domain/delivery/enterprise/entities/recipient'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
+import { PrismaRecipientMapper } from '@/infra/database/prisma/mappers/prisma-recipient-mapper'
 
 // factory domain for unit tests
 // partial transform any props opcional

@@ -29,5 +29,62 @@ model User {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
+  deliveries Delivery[]
+
   @@map("users")
+}
+
+enum DeliveryStatus {
+  Delivered
+  Returned
+  PickedUp
+  Waiting
+}
+
+model Delivery {
+  id          String    @id @default(uuid())
+  title       String
+  status      DeliveryStatus
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime? @map("updated_at")
+  postedAt    DateTime? @map("posted_at")
+  pickedUpAt  DateTime? @map("picked_up_at")
+  returnedAt  DateTime? @map("returned_at")
+  deliveredAt DateTime? @map("delivered_at")
+  userId      String    @map("user_id")
+  recipientId String    @map("recipient_id")
+
+  user      User      @relation(fields: [userId], references: [id])
+  recipient Recipient @relation(fields: [recipientId], references: [id])
+
+  attachments Attachment[]
+}
+
+model Recipient {
+  id        String  @id @default(uuid())
+  name      String
+  street    String
+  number    String
+  city      String
+  state     String
+  cep       String
+  latitude  Decimal
+  longitude Decimal
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime? @map("updated_at")
+
+  deliveries Delivery[]
+
+  @@map("recipients")
+}
+
+model Attachment {
+  id         String  @id @default(uuid())
+  title      String
+  url        String
+  deliveryId String? @map("delivery_id")
+
+  delivery Delivery? @relation(fields: [deliveryId], references: [id])
+
+  @@map("attachments")
 }
