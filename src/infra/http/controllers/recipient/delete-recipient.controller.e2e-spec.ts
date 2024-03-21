@@ -1,4 +1,3 @@
-import { RecipientFactory } from 'test/factories/make-recipient'
 import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
@@ -7,8 +6,9 @@ import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { AdminFactory } from 'test/factories/make-admin'
+import { RecipientFactory } from 'test/factories/make-recipient'
 
-describe('Edit Recipient (E2E)', () => {
+describe('Delete Recipient (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let adminFactory: AdminFactory
@@ -33,7 +33,7 @@ describe('Edit Recipient (E2E)', () => {
     await app.init()
   })
 
-  test('[PUT] /recipients/:id', async () => {
+  test('[DELETE] /recipients/:id', async () => {
     // create user
     const admin = await adminFactory.makePrismaAdmin()
 
@@ -46,35 +46,19 @@ describe('Edit Recipient (E2E)', () => {
 
     // create a new recipient
     const response = await request(app.getHttpServer())
-      .put(`/recipients/${recipientId}`)
+      .delete(`/recipients/${recipientId}`)
       .set('Authorization', `Bearer ${accessToken}`) // set authorization
-      .send({
-        name: 'recipient',
-        street: 'Street-1',
-        number: '10',
-        city: 'San Francisco',
-        state: 'CA',
-        cep: '72593210',
-        latitude: -16.0053338,
-        longitude: -47.9963359,
-      })
+      .send()
 
     expect(response.statusCode).toBe(204)
 
-    // verify if the deliveryman created is on database by id
-    const recipientOnDatabase = await prisma.recipient.findFirst({
+    // verify if the recipient created is on database by id
+    const recipientOnDatabase = await prisma.recipient.findUnique({
       where: {
-        name: 'recipient',
-        street: 'Street-1',
-        number: '10',
-        city: 'San Francisco',
-        state: 'CA',
-        cep: '72593210',
-        latitude: -16.0053338,
-        longitude: -47.9963359,
+        id: recipientId,
       },
     })
 
-    expect(recipientOnDatabase).toBeTruthy()
+    expect(recipientOnDatabase).toBeNull()
   })
 })

@@ -21,6 +21,8 @@ import { CreateRecipientController } from './controllers/recipient/create-recipi
 import { CreateRecipientUseCase } from '@/domain/delivery/application/use-cases/recipient/create-recipient'
 import { EditRecipientController } from './controllers/recipient/edit-recipient.controller'
 import { EditRecipientUseCase } from '@/domain/delivery/application/use-cases/recipient/edit-recipient'
+import { DeleteRecipientController } from './controllers/recipient/delete-recipient.controller'
+import { DeleteRecipientUseCase } from '@/domain/delivery/application/use-cases/recipient/delete-recipient'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -35,6 +37,7 @@ import { EditRecipientUseCase } from '@/domain/delivery/application/use-cases/re
     FetchDeliveryManController,
     CreateRecipientController,
     EditRecipientController,
+    DeleteRecipientController,
   ],
   providers: [
     CreateAdminUseCase,
@@ -47,6 +50,7 @@ import { EditRecipientUseCase } from '@/domain/delivery/application/use-cases/re
     FetchDeliveryManUseCase,
     CreateRecipientUseCase,
     EditRecipientUseCase,
+    DeleteRecipientUseCase,
   ],
 })
 export class HttpModule {}
