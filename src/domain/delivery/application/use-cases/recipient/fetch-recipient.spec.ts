@@ -34,7 +34,7 @@ describe('Fetch Recipient Use Case', () => {
     })
 
     if (result.isRight()) {
-      expect(result.value.recipient).toHaveLength(3)
+      expect(result.value.recipients).toHaveLength(3)
     }
   })
 
@@ -53,7 +53,7 @@ describe('Fetch Recipient Use Case', () => {
     })
 
     if (result.isRight()) {
-      expect(result.value.recipient).toHaveLength(2)
+      expect(result.value.recipients).toHaveLength(2)
     }
   })
 

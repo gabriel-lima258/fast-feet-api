@@ -13,7 +13,7 @@ interface FetchRecipientUseCaseRequest {
 type FetchRecipientUseCaseResponse = Either<
   NotAllowedError,
   {
-    recipient: Recipient[]
+    recipients: Recipient[]
   }
 >
 
@@ -34,11 +34,11 @@ export class FetchRecipientUseCase {
       return left(new NotAllowedError())
     }
 
-    const recipient = await this.recipientRepository.findMany({ page })
+    const recipients = await this.recipientRepository.findMany({ page })
 
-    // retuning a list question recipient
+    // retuning a list question recipients
     return right({
-      recipient,
+      recipients,
     })
   }
 }
