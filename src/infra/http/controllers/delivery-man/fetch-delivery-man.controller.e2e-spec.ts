@@ -1,6 +1,5 @@
 import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
@@ -8,9 +7,8 @@ import request from 'supertest'
 import { AdminFactory } from 'test/factories/make-admin'
 import { DeliveryManFactory } from 'test/factories/make-delivery-man'
 
-describe('Edit Delivery Man (E2E)', () => {
+describe('Fetch Delivery Man (E2E)', () => {
   let app: INestApplication
-  let prisma: PrismaService
   let adminFactory: AdminFactory
   let deliverymanFactory: DeliveryManFactory
   let jwt: JwtService
@@ -24,8 +22,6 @@ describe('Edit Delivery Man (E2E)', () => {
 
     app = moduleRef.createNestApplication()
 
-    // get prisma and jwt from inside the module
-    prisma = moduleRef.get(PrismaService)
     adminFactory = moduleRef.get(AdminFactory)
     deliverymanFactory = moduleRef.get(DeliveryManFactory)
     jwt = moduleRef.get(JwtService)
@@ -33,40 +29,50 @@ describe('Edit Delivery Man (E2E)', () => {
     await app.init()
   })
 
-  test('[PUT] /deliverymans/:id', async () => {
+  test('[GET] /deliverymans', async () => {
     // create user
     const admin = await adminFactory.makePrismaAdmin()
 
     // get its token
     const accessToken = jwt.sign({ sub: admin.id.toString() })
 
-    const deliveryman = await deliverymanFactory.makePrismaDeliveryMan()
-
-    const deliverymanId = deliveryman.id.toString()
+    await Promise.all([
+      deliverymanFactory.makePrismaDeliveryMan({
+        name: 'Matheus',
+        email: 'matheus58221@gmail.com',
+        cpf: '08507088982',
+        phone: '992632009',
+      }),
+      deliverymanFactory.makePrismaDeliveryMan({
+        name: 'Gabriel',
+        email: 'gabriel58221@gmail.com',
+        cpf: '08507088981',
+        phone: '992632009',
+      }),
+    ])
 
     // create a new deliveryman
     const response = await request(app.getHttpServer())
-      .put(`/deliverymans/${deliverymanId}`)
+      .get(`/deliverymans`)
       .set('Authorization', `Bearer ${accessToken}`) // set authorization
-      .send({
-        name: 'Matheus',
-        email: 'matheus58221@gmail.com',
-        cpf: '08507088982',
-        phone: '992632009',
-      })
+      .send()
 
-    expect(response.statusCode).toBe(204)
-
-    // verify if the deliveryman created is on database by id
-    const deliverymanOnDatabase = await prisma.user.findFirst({
-      where: {
-        name: 'Matheus',
-        email: 'matheus58221@gmail.com',
-        cpf: '08507088982',
-        phone: '992632009',
-      },
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({
+      deliverymans: expect.arrayContaining([
+        expect.objectContaining({
+          name: 'Matheus',
+          email: 'matheus58221@gmail.com',
+          cpf: '08507088982',
+          phone: '992632009',
+        }),
+        expect.objectContaining({
+          name: 'Gabriel',
+          email: 'gabriel58221@gmail.com',
+          cpf: '08507088981',
+          phone: '992632009',
+        }),
+      ]),
     })
-
-    expect(deliverymanOnDatabase).toBeTruthy()
   })
 })

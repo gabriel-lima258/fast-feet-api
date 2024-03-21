@@ -34,7 +34,7 @@ describe('Fetch DeliveryMan Use Case', () => {
     })
 
     if (result.isRight()) {
-      expect(result.value.deliveryman).toHaveLength(3)
+      expect(result.value.deliverymans).toHaveLength(3)
     }
   })
 
@@ -53,7 +53,7 @@ describe('Fetch DeliveryMan Use Case', () => {
     })
 
     if (result.isRight()) {
-      expect(result.value.deliveryman).toHaveLength(2)
+      expect(result.value.deliverymans).toHaveLength(2)
     }
   })
 

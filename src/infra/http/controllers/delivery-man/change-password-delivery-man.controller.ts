@@ -3,7 +3,6 @@ import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt-strategy'
 import {
   Controller,
-  Put,
   HttpCode,
   Param,
   Body,

@@ -1,12 +1,20 @@
-import { CurrentUser } from "@/infra/auth/current-user-decorator"
-import { UserPayload } from "@/infra/auth/jwt-strategy"
-import { Controller, Put, HttpCode, Param, Body, BadRequestException, ConflictException, MethodNotAllowedException, NotFoundException } from "@nestjs/common"
-import { z } from "zod"
-import { ZodValidationPipe } from "../../pipes/zod-vaidation.pipe"
-import { EditDeliveryManUseCase } from "@/domain/delivery/application/use-cases/delivery-man/edit-delivery-man"
-import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error"
-import { UserAlreadyExistsError } from "@/domain/delivery/application/use-cases/errors/user-already-exists-error"
-
+import { CurrentUser } from '@/infra/auth/current-user-decorator'
+import { UserPayload } from '@/infra/auth/jwt-strategy'
+import {
+  Controller,
+  Put,
+  HttpCode,
+  Param,
+  Body,
+  BadRequestException,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common'
+import { z } from 'zod'
+import { ZodValidationPipe } from '../../pipes/zod-vaidation.pipe'
+import { EditDeliveryManUseCase } from '@/domain/delivery/application/use-cases/delivery-man/edit-delivery-man'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { UserAlreadyExistsError } from '@/domain/delivery/application/use-cases/errors/user-already-exists-error'
 
 const editDeliveryManBodySchema = z.object({
   name: z.string(),

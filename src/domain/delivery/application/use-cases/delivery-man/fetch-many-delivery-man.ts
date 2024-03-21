@@ -13,7 +13,7 @@ interface FetchDeliveryManUseCaseRequest {
 type FetchDeliveryManUseCaseResponse = Either<
   NotAllowedError,
   {
-    deliveryman: DeliveryMan[]
+    deliverymans: DeliveryMan[]
   }
 >
 
@@ -34,11 +34,11 @@ export class FetchDeliveryManUseCase {
       return left(new NotAllowedError())
     }
 
-    const deliveryman = await this.deliverymanRepository.findMany({ page })
+    const deliverymans = await this.deliverymanRepository.findMany({ page })
 
     // retuning a list question deliveryman
     return right({
-      deliveryman,
+      deliverymans,
     })
   }
 }
