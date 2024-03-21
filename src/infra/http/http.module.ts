@@ -19,6 +19,8 @@ import { FetchDeliveryManController } from './controllers/delivery-man/fetch-del
 import { FetchDeliveryManUseCase } from '@/domain/delivery/application/use-cases/delivery-man/fetch-many-delivery-man'
 import { CreateRecipientController } from './controllers/recipient/create-recipient.controller'
 import { CreateRecipientUseCase } from '@/domain/delivery/application/use-cases/recipient/create-recipient'
+import { EditRecipientController } from './controllers/recipient/edit-recipient.controller'
+import { EditRecipientUseCase } from '@/domain/delivery/application/use-cases/recipient/edit-recipient'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -32,6 +34,7 @@ import { CreateRecipientUseCase } from '@/domain/delivery/application/use-cases/
     EditDeliveryManController,
     FetchDeliveryManController,
     CreateRecipientController,
+    EditRecipientController,
   ],
   providers: [
     CreateAdminUseCase,
@@ -43,6 +46,7 @@ import { CreateRecipientUseCase } from '@/domain/delivery/application/use-cases/
     EditDeliveryManUseCase,
     FetchDeliveryManUseCase,
     CreateRecipientUseCase,
+    EditRecipientUseCase,
   ],
 })
 export class HttpModule {}
