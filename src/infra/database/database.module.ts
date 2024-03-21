@@ -4,6 +4,8 @@ import { AdminRepository } from '@/domain/delivery/application/repositories/admi
 import { PrismaAdminRepository } from './prisma/repositories/prisma-admin-repository'
 import { DeliveryManRepository } from '@/domain/delivery/application/repositories/delivery-man-repository'
 import { PrismaDeliveryManRepository } from './prisma/repositories/prisma-delivery-man-repository'
+import { RecipientRepository } from '@/domain/delivery/application/repositories/recipient-repository'
+import { PrismaRecipientRepository } from './prisma/repositories/prisma-recipient-repository'
 
 @Module({
   imports: [],
@@ -17,7 +19,16 @@ import { PrismaDeliveryManRepository } from './prisma/repositories/prisma-delive
       provide: DeliveryManRepository,
       useClass: PrismaDeliveryManRepository,
     },
+    {
+      provide: RecipientRepository,
+      useClass: PrismaRecipientRepository,
+    },
   ],
-  exports: [PrismaService, AdminRepository, DeliveryManRepository],
+  exports: [
+    PrismaService,
+    AdminRepository,
+    DeliveryManRepository,
+    RecipientRepository,
+  ],
 })
 export class DatabaseModule {}
