@@ -1,5 +1,4 @@
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
-import { UserAlreadyExistsError } from '@/domain/delivery/application/use-cases/errors/user-already-exists-error'
 import { CreateRecipientUseCase } from '@/domain/delivery/application/use-cases/recipient/create-recipient'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt-strategy'
