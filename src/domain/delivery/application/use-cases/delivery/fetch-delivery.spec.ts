@@ -44,7 +44,7 @@ describe('Fetch Delivery Use Case', () => {
     })
 
     if (result.isRight()) {
-      expect(result.value.delivery).toHaveLength(3)
+      expect(result.value.deliveries).toHaveLength(3)
     }
   })
 
@@ -63,7 +63,7 @@ describe('Fetch Delivery Use Case', () => {
     })
 
     if (result.isRight()) {
-      expect(result.value.delivery).toHaveLength(2)
+      expect(result.value.deliveries).toHaveLength(2)
     }
   })
 

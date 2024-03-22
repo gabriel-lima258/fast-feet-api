@@ -6,12 +6,12 @@ import { AdminRepository } from '../../repositories/admin-repository'
 import { DeliveryRepository } from '../../repositories/delivery-repository'
 import { Delivery } from '@/domain/delivery/enterprise/entities/delivery'
 
-interface DeliveryAvailableUseCaseRequest {
+interface DeliveryAvaliableUseCaseRequest {
   adminId: string
   deliveryId: string
 }
 
-type DeliveryAvailableUseCaseResponse = Either<
+type DeliveryAvaliableUseCaseResponse = Either<
   NotAllowedError | ResourceNotFoundError,
   {
     delivery: Delivery
@@ -19,7 +19,7 @@ type DeliveryAvailableUseCaseResponse = Either<
 >
 
 @Injectable()
-export class DeliveryAvailableUseCase {
+export class DeliveryAvaliableUseCase {
   constructor(
     private administratorsRepository: AdminRepository,
     private deliverysRepository: DeliveryRepository,
@@ -28,7 +28,7 @@ export class DeliveryAvailableUseCase {
   async execute({
     adminId,
     deliveryId,
-  }: DeliveryAvailableUseCaseRequest): Promise<DeliveryAvailableUseCaseResponse> {
+  }: DeliveryAvaliableUseCaseRequest): Promise<DeliveryAvaliableUseCaseResponse> {
     const administrator = await this.administratorsRepository.findById(adminId)
 
     if (!administrator) {

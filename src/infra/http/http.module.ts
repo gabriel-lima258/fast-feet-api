@@ -30,6 +30,24 @@ import { UploadAndCreateAttachmentUseCase } from '@/domain/delivery/application/
 import { StorageModule } from '../upload/storage.module'
 import { CreateDeliveryController } from './controllers/delivery/create-delivery.controller'
 import { CreateDeliveryUseCase } from '@/domain/delivery/application/use-cases/delivery/create-delivery'
+import { DeleteDeliveryController } from './controllers/delivery/delete-delivery.controller'
+import { DeleteDeliveryUseCase } from '@/domain/delivery/application/use-cases/delivery/delete.delivery'
+import { EditDeliveryUseCase } from '@/domain/delivery/application/use-cases/delivery/edit-delivery'
+import { EditDeliveryController } from './controllers/delivery/edit-delivery.controller'
+import { FetchDeliveryController } from './controllers/delivery/fetch-delivery.controller'
+import { FetchDeliveryUseCase } from '@/domain/delivery/application/use-cases/delivery/fetch-delivery'
+import { FetchDeliveryManDeliveriesUseCase } from '@/domain/delivery/application/use-cases/delivery/fetch-delivery-man-deliveries'
+import { FetchDeliveryManDeliveriesController } from './controllers/delivery/fetch-delivery-man-deliveries.controller'
+import { FetchNearbyDeliveryUseCase } from '@/domain/delivery/application/use-cases/delivery/fetch-nearby-delivery'
+import { FetchNearbyDeliveriesController } from './controllers/delivery/fetch-nearby-delivery.controller'
+import { DeliveryAvaliableController } from './controllers/delivery/delivery-avaliable.controller'
+import { DeliveryAvaliableUseCase } from '@/domain/delivery/application/use-cases/delivery/delivery-avaliable'
+import { MarkDeliveryReturnedController } from './controllers/delivery/mark-delivery-returned.controller'
+import { MarkDeliveryReturnedUseCase } from '@/domain/delivery/application/use-cases/delivery/mark-delivery-returned'
+import { MarkPickedUpDeliveryController } from './controllers/delivery/mark-pick-up-delivery.controller'
+import { MarkPickedUpDeliveryUseCase } from '@/domain/delivery/application/use-cases/delivery/mark-pick-up-delivery'
+import { MarkDeliveryAsCompletedController } from './controllers/delivery/mark-delivery-as-complete.controller'
+import { MarkDeliveryAsCompletedUseCase } from '@/domain/delivery/application/use-cases/delivery/mark-delivery-as-complete'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -48,6 +66,15 @@ import { CreateDeliveryUseCase } from '@/domain/delivery/application/use-cases/d
     FetchRecipientController,
     UploadAttachmentController,
     CreateDeliveryController,
+    DeleteDeliveryController,
+    EditDeliveryController,
+    FetchDeliveryController,
+    FetchDeliveryManDeliveriesController,
+    FetchNearbyDeliveriesController,
+    DeliveryAvaliableController,
+    MarkDeliveryReturnedController,
+    MarkPickedUpDeliveryController,
+    MarkDeliveryAsCompletedController,
   ],
   providers: [
     CreateAdminUseCase,
@@ -64,6 +91,15 @@ import { CreateDeliveryUseCase } from '@/domain/delivery/application/use-cases/d
     FetchRecipientUseCase,
     UploadAndCreateAttachmentUseCase,
     CreateDeliveryUseCase,
+    DeleteDeliveryUseCase,
+    EditDeliveryUseCase,
+    FetchDeliveryUseCase,
+    FetchDeliveryManDeliveriesUseCase,
+    FetchNearbyDeliveryUseCase,
+    DeliveryAvaliableUseCase,
+    MarkDeliveryReturnedUseCase,
+    MarkPickedUpDeliveryUseCase,
+    MarkDeliveryAsCompletedUseCase,
   ],
 })
 export class HttpModule {}

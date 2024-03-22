@@ -6,63 +6,70 @@ import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { AdminFactory } from 'test/factories/make-admin'
+import { DeliveryFactory } from 'test/factories/make-delivery'
 import { DeliveryManFactory } from 'test/factories/make-delivery-man'
 import { RecipientFactory } from 'test/factories/make-recipient'
 
-describe('Create Delivery (E2E)', () => {
+describe('Delivery available For Pick Up (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
   let adminFactory: AdminFactory
   let recipientFactory: RecipientFactory
   let deliverymanFactory: DeliveryManFactory
+  let deliveryFactory: DeliveryFactory
 
   beforeAll(async () => {
-    // module to start server without the official server
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [AdminFactory, DeliveryManFactory, RecipientFactory],
+      providers: [
+        AdminFactory,
+        DeliveryFactory,
+        DeliveryManFactory,
+        RecipientFactory,
+      ], // get factory instance
     }).compile()
 
     app = moduleRef.createNestApplication()
-
-    // get prisma from inside the module
     prisma = moduleRef.get(PrismaService)
     jwt = moduleRef.get(JwtService)
+
     adminFactory = moduleRef.get(AdminFactory)
     recipientFactory = moduleRef.get(RecipientFactory)
+    deliveryFactory = moduleRef.get(DeliveryFactory)
     deliverymanFactory = moduleRef.get(DeliveryManFactory)
 
     await app.init()
   })
 
-  test('[POST] /recipients/:recipientId/deliveries', async () => {
+  test('[PATCH] /deliveries/:deliveryId/avaliable', async () => {
     const admin = await adminFactory.makePrismaAdmin()
     const accessToken = jwt.sign({ sub: admin.id.toString() })
 
-    const deliveryMan = await deliverymanFactory.makePrismaDeliveryMan()
+    const deliveryman = await deliverymanFactory.makePrismaDeliveryMan()
     const recipient = await recipientFactory.makePrismaRecipient()
 
-    const response = await request(app.getHttpServer())
-      .post(`/deliveries`)
+    const delivery = await deliveryFactory.makePrismaDelivery({
+      deliveryManId: deliveryman.id,
+      recipientId: recipient.id,
+    })
+
+    const deliveryId = delivery.id.toString()
+
+    const result = await request(app.getHttpServer())
+      .patch(`/deliveries/${deliveryId}/avaliable`)
       .set('Authorization', `Bearer ${accessToken}`)
-      .send({
-        title: 'pacote 1',
-        deliverymanId: deliveryMan.id.toString(),
-        recipientId: recipient.id.toString(),
-      })
+      .send()
 
-    expect(response.statusCode).toBe(201)
+    expect(result.statusCode).toBe(204)
 
-    // verify if the user created is on database
-    const deliveryOnDatabase = await prisma.delivery.findFirst({
+    const deliveryOnDatabase = await prisma.delivery.findUnique({
       where: {
-        title: 'pacote 1',
-        userId: deliveryMan.id.toString(),
-        recipientId: recipient.id.toString(),
+        id: deliveryId,
       },
     })
 
     expect(deliveryOnDatabase).toBeTruthy()
+    expect(deliveryOnDatabase?.status).toEqual('Waiting')
   })
 })

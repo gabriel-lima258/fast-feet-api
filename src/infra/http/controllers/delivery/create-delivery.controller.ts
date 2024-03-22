@@ -10,7 +10,6 @@ import {
   MethodNotAllowedException,
   BadRequestException,
   NotFoundException,
-  Param,
 } from '@nestjs/common'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../../pipes/zod-vaidation.pipe'
@@ -18,6 +17,7 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 
 const createDeliveryBodySchema = z.object({
   deliverymanId: z.string().uuid(),
+  recipientId: z.string().uuid(),
   title: z.string(),
 })
 
@@ -25,19 +25,18 @@ const bodyValidationPipe = new ZodValidationPipe(createDeliveryBodySchema)
 
 type CreateDeliveryBodySchema = z.infer<typeof createDeliveryBodySchema>
 
-@Controller('/recipients/:recipientId/deliveries')
+@Controller('/deliveries')
 export class CreateDeliveryController {
   constructor(private createDelivery: CreateDeliveryUseCase) {}
 
   @Post()
   @HttpCode(201)
   async handle(
-    @Param('recipientId') recipientId: string,
     @CurrentUser() user: UserPayload,
     @Body(bodyValidationPipe) body: CreateDeliveryBodySchema,
   ) {
     const { sub: adminId } = user
-    const { title, deliverymanId } = body
+    const { title, deliverymanId, recipientId } = body
 
     const result = await this.createDelivery.execute({
       adminId,
