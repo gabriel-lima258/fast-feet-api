@@ -36,19 +36,20 @@ describe('Create Delivery (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /deliveries', async () => {
+  test('[POST] /recipients/:recipientId/deliveries', async () => {
     const admin = await adminFactory.makePrismaAdmin()
     const accessToken = jwt.sign({ sub: admin.id.toString() })
 
     const deliveryMan = await deliverymanFactory.makePrismaDeliveryMan()
+
     const recipient = await recipientFactory.makePrismaRecipient()
+    const recipientId = recipient.id.toString()
 
     const response = await request(app.getHttpServer())
-      .post('/deliveries')
+      .post(`/recipients/${recipientId}/deliveries`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         title: 'pacote 1',
-        recipientId: recipient.id.toString(),
         deliverymanId: deliveryMan.id.toString(),
       })
 
@@ -58,7 +59,6 @@ describe('Create Delivery (E2E)', () => {
     const recipientOnDatabase = await prisma.delivery.findFirst({
       where: {
         title: 'pacote 1',
-        recipientId: recipient.id.toString(),
         userId: deliveryMan.id.toString(),
       },
     })
