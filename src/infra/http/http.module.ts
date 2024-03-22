@@ -28,6 +28,8 @@ import { FetchRecipientUseCase } from '@/domain/delivery/application/use-cases/r
 import { UploadAttachmentController } from './controllers/attachment/upload-attachment.controller'
 import { UploadAndCreateAttachmentUseCase } from '@/domain/delivery/application/use-cases/attachment/upload-and-create-attachment'
 import { StorageModule } from '../upload/storage.module'
+import { CreateDeliveryController } from './controllers/delivery/create-delivery.controller'
+import { CreateDeliveryUseCase } from '@/domain/delivery/application/use-cases/delivery/create-delivery'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -45,6 +47,7 @@ import { StorageModule } from '../upload/storage.module'
     DeleteRecipientController,
     FetchRecipientController,
     UploadAttachmentController,
+    CreateDeliveryController,
   ],
   providers: [
     CreateAdminUseCase,
@@ -60,6 +63,7 @@ import { StorageModule } from '../upload/storage.module'
     DeleteRecipientUseCase,
     FetchRecipientUseCase,
     UploadAndCreateAttachmentUseCase,
+    CreateDeliveryUseCase,
   ],
 })
 export class HttpModule {}

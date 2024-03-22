@@ -6,7 +6,6 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { DeliveryManFactory } from 'test/factories/make-delivery-man'
 
-
 describe('Upload attachment (E2E)', () => {
   let app: INestApplication
   let deliverymanFactory: DeliveryManFactory
