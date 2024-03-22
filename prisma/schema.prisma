@@ -29,7 +29,8 @@ model User {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
-  deliveries Delivery[]
+  deliveries   Delivery[]
+  Notification Notification[]
 
   @@map("users")
 }
@@ -54,7 +55,7 @@ model Delivery {
 }
 
 model Recipient {
-  id        String  @id @default(uuid())
+  id        String    @id @default(uuid())
   name      String
   street    String
   number    String
@@ -63,8 +64,8 @@ model Recipient {
   cep       String
   latitude  Decimal
   longitude Decimal
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime? @map("updated_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
 
   deliveries Delivery[]
 
@@ -80,4 +81,17 @@ model Attachment {
   delivery Delivery? @relation(fields: [deliveryId], references: [id])
 
   @@map("attachments")
+}
+
+model Notification {
+  id        String    @id @default(uuid())
+  title     String
+  content   String
+  readAt    DateTime? @map("read_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  recipientId    String @map("recipient_id")
+
+  recipient User   @relation(fields: [recipientId], references: [id])
+
+  @@map("notifications")
 }

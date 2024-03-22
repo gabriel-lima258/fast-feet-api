@@ -4,16 +4,16 @@ import { makeDelivery } from 'test/factories/make-delivery'
 import { InMemoryAdminRepository } from 'test/repositories/in-memory-admin-repository'
 import { InMemoryDeliveryRepository } from 'test/repositories/in-memory-delivery-repository'
 import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient-repository'
-import { DeliveryAvailableUseCase } from './delivery-avaliable'
 import { InMemoryDeliveryAttachmentsRepository } from 'test/repositories/in-memory-delivery-attachments-repository'
 import { makeAdmin } from 'test/factories/make-admin'
+import { DeliveryAvaliableUseCase } from './delivery-avaliable'
 
 let inMemoryAdminRepository: InMemoryAdminRepository
 let inMemoryDeliveryRepository: InMemoryDeliveryRepository
 let inMemoryDeliveryAttachmentRepository: InMemoryDeliveryAttachmentsRepository
 let inMemoryRecipientsRepository: InMemoryRecipientRepository
 
-let sut: DeliveryAvailableUseCase
+let sut: DeliveryAvaliableUseCase
 
 describe('Mark Delivery Waiting', () => {
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('Mark Delivery Waiting', () => {
       inMemoryRecipientsRepository,
     )
 
-    sut = new DeliveryAvailableUseCase(
+    sut = new DeliveryAvaliableUseCase(
       inMemoryAdminRepository,
       inMemoryDeliveryRepository,
     )

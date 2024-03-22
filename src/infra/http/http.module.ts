@@ -48,6 +48,8 @@ import { MarkPickedUpDeliveryController } from './controllers/delivery/mark-pick
 import { MarkPickedUpDeliveryUseCase } from '@/domain/delivery/application/use-cases/delivery/mark-pick-up-delivery'
 import { MarkDeliveryAsCompletedController } from './controllers/delivery/mark-delivery-as-complete.controller'
 import { MarkDeliveryAsCompletedUseCase } from '@/domain/delivery/application/use-cases/delivery/mark-delivery-as-complete'
+import { ReadNotificationController } from './controllers/notification/read-notification.controller'
+import { ReadNotificationUseCase } from '@/domain/notification/application/use-cases/read-notification'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -75,6 +77,7 @@ import { MarkDeliveryAsCompletedUseCase } from '@/domain/delivery/application/us
     MarkDeliveryReturnedController,
     MarkPickedUpDeliveryController,
     MarkDeliveryAsCompletedController,
+    ReadNotificationController,
   ],
   providers: [
     CreateAdminUseCase,
@@ -100,6 +103,7 @@ import { MarkDeliveryAsCompletedUseCase } from '@/domain/delivery/application/us
     MarkDeliveryReturnedUseCase,
     MarkPickedUpDeliveryUseCase,
     MarkDeliveryAsCompletedUseCase,
+    ReadNotificationUseCase,
   ],
 })
 export class HttpModule {}

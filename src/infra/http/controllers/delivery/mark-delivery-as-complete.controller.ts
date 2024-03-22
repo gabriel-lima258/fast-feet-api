@@ -28,7 +28,7 @@ type MarkDeliveryDeliveredBodySchema = z.infer<
   typeof markDeliveryDeliveredBodySchema
 >
 
-@Controller('/deliveries/:deliveryId/completed')
+@Controller('/deliveries/:deliveryId/delivered')
 export class MarkDeliveryAsCompletedController {
   constructor(
     private markDeliveryAsCompleted: MarkDeliveryAsCompletedUseCase,

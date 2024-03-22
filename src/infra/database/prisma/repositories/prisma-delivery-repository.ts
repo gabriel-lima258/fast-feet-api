@@ -8,10 +8,14 @@ import { Injectable } from '@nestjs/common'
 import { PrismaDeliveryMapper } from '../mappers/prisma-delivery-mapper'
 import { PrismaService } from '../prisma.service'
 import { Recipient } from '@prisma/client'
+import { DeliveryAttachmentsRepository } from '@/domain/delivery/application/repositories/delivery-attachments-repository'
 
 @Injectable()
 export class PrismaDeliveryRepository implements DeliveryRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private deliveryAttachmentsRepository: DeliveryAttachmentsRepository,
+  ) {}
 
   async create(delivery: Delivery): Promise<void> {
     const data = PrismaDeliveryMapper.toPrisma(delivery)
@@ -40,6 +44,10 @@ export class PrismaDeliveryRepository implements DeliveryRepository {
       },
       data,
     })
+
+    await this.deliveryAttachmentsRepository.createMany(
+      delivery.attachments.getItems(),
+    )
   }
 
   async findById(id: string): Promise<Delivery | null> {

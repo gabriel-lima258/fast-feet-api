@@ -42,7 +42,7 @@ describe('Mark Delivery Completed (E2E)', () => {
     await app.init()
   })
 
-  test('[PATCH] /deliveries/:deliveryId/completed', async () => {
+  test('[PATCH] /deliveries/:deliveryId/delivered', async () => {
     const deliveryman = await deliverymanFactory.makePrismaDeliveryMan()
     const accessToken = jwt.sign({ sub: deliveryman.id.toString() })
 
@@ -58,10 +58,10 @@ describe('Mark Delivery Completed (E2E)', () => {
     const deliveryId = delivery.id.toString()
 
     const result = await request(app.getHttpServer())
-      .patch(`/deliveries/${deliveryId}/completed`)
+      .patch(`/deliveries/${deliveryId}/delivered`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        attachments: [attachment.id.toString()]
+        attachments: [attachment.id.toString()],
       })
 
     expect(result.statusCode).toBe(204)
@@ -77,7 +77,7 @@ describe('Mark Delivery Completed (E2E)', () => {
 
     const attachmentsOnDatabase = await prisma.attachment.findMany({
       where: {
-        deliveryId: deliveryOnDatabase?.id
+        deliveryId: deliveryOnDatabase?.id,
       },
     })
 

@@ -6,6 +6,7 @@ import {
 } from '@/domain/notification/enterprise/entities/notification'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
+import { PrismaNotificationMapper } from '@/infra/database/prisma/mappers/prisma-notification-mapper'
 
 // partial transform any props opcional
 export function makeNotification(
