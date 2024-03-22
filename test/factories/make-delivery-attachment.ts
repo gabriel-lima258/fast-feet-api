@@ -36,7 +36,7 @@ export class DeliveryAttachmentFactory {
         id: deliveryAttachment.attachmentId.toString(),
       },
       data: {
-        deliverieId: deliveryAttachment.deliveryId.toString(),
+        deliveryId: deliveryAttachment.deliveryId.toString(),
       },
     })
 
