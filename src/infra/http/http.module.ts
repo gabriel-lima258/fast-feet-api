@@ -25,9 +25,12 @@ import { DeleteRecipientController } from './controllers/recipient/delete-recipi
 import { DeleteRecipientUseCase } from '@/domain/delivery/application/use-cases/recipient/delete-recipient'
 import { FetchRecipientController } from './controllers/recipient/fetch-recipient.controller'
 import { FetchRecipientUseCase } from '@/domain/delivery/application/use-cases/recipient/fetch-recipient'
+import { UploadAttachmentController } from './controllers/attachment/upload-attachment.controller'
+import { UploadAndCreateAttachmentUseCase } from '@/domain/delivery/application/use-cases/attachment/upload-and-create-attachment'
+import { StorageModule } from '../upload/storage.module'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule],
   controllers: [
     CreateAdminController,
     AuthenticateAdminController,
@@ -41,6 +44,7 @@ import { FetchRecipientUseCase } from '@/domain/delivery/application/use-cases/r
     EditRecipientController,
     DeleteRecipientController,
     FetchRecipientController,
+    UploadAttachmentController,
   ],
   providers: [
     CreateAdminUseCase,
@@ -55,6 +59,7 @@ import { FetchRecipientUseCase } from '@/domain/delivery/application/use-cases/r
     EditRecipientUseCase,
     DeleteRecipientUseCase,
     FetchRecipientUseCase,
+    UploadAndCreateAttachmentUseCase,
   ],
 })
 export class HttpModule {}

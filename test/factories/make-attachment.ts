@@ -7,6 +7,7 @@ import {
 } from '@/domain/delivery/enterprise/entities/attachment'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
+import { PrismaAttachmentMapper } from '@/infra/database/prisma/mappers/prisma-attachment-mapper'
 
 export function makeAttachment(
   override: Partial<AttachmentProps> = {},
