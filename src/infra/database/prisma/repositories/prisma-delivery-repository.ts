@@ -9,11 +9,14 @@ import { PrismaDeliveryMapper } from '../mappers/prisma-delivery-mapper'
 import { PrismaService } from '../prisma.service'
 import { Recipient } from '@prisma/client'
 import { DeliveryAttachmentsRepository } from '@/domain/delivery/application/repositories/delivery-attachments-repository'
+import { DomainEvents } from '@/core/events/domain-events'
+import { CacheRepository } from '@/infra/cache/cache-repository'
 
 @Injectable()
 export class PrismaDeliveryRepository implements DeliveryRepository {
   constructor(
     private prisma: PrismaService,
+    private cache: CacheRepository,
     private deliveryAttachmentsRepository: DeliveryAttachmentsRepository,
   ) {}
 
@@ -45,12 +48,30 @@ export class PrismaDeliveryRepository implements DeliveryRepository {
       data,
     })
 
-    await this.deliveryAttachmentsRepository.createMany(
-      delivery.attachments.getItems(),
-    )
+    await this.cache.delete(`delivery:${data.id}:details`)
+
+    DomainEvents.dispatchEventsForAggregate(delivery.id)
+
+    if (
+      delivery.status === 'Delivered' &&
+      delivery.attachments !== null &&
+      delivery.attachments !== undefined
+    ) {
+      await this.deliveryAttachmentsRepository.createMany(
+        delivery.attachments.getItems(),
+      )
+    }
   }
 
   async findById(id: string): Promise<Delivery | null> {
+    const cacheHit = await this.cache.get(`delivery:${id}:details`)
+
+    if (cacheHit) {
+      const cachedData = JSON.parse(cacheHit)
+
+      return cachedData
+    }
+
     const delivery = await this.prisma.delivery.findUnique({
       where: {
         id,
@@ -61,7 +82,14 @@ export class PrismaDeliveryRepository implements DeliveryRepository {
       return null
     }
 
-    return PrismaDeliveryMapper.toDomain(delivery)
+    const deliveryDetails = PrismaDeliveryMapper.toDomain(delivery)
+
+    await this.cache.set(
+      `delivery:${id}:details`,
+      JSON.stringify(deliveryDetails),
+    )
+
+    return deliveryDetails
   }
 
   async findMany({ page }: PaginationParams): Promise<Delivery[]> {

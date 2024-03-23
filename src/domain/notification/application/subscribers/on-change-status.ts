@@ -9,8 +9,8 @@ import { RecipientRepository } from '@/domain/delivery/application/repositories/
 export class OnChangeStatus implements EventHandler {
   // use question repository to link to answer
   constructor(
-    private recipientRepository: RecipientRepository,
     private sendNotification: SendNotificationUseCase,
+    private recipientRepository: RecipientRepository,
   ) {
     this.setupSubscriptions()
   }

@@ -1,14 +1,13 @@
-import { AppModule } from "@/infra/app.module"
-import { DatabaseModule } from "@/infra/database/database.module"
-import { PrismaService } from "@/infra/database/prisma/prisma.service"
-import { INestApplication } from "@nestjs/common"
-import { JwtService } from "@nestjs/jwt"
-import { Test } from "@nestjs/testing"
-import { AdminFactory } from "test/factories/make-admin"
-import { NotificationFactory } from "test/factories/make-notification"
-import { RecipientFactory } from "test/factories/make-recipient"
+import { AppModule } from '@/infra/app.module'
+import { DatabaseModule } from '@/infra/database/database.module'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { INestApplication } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
+import { Test } from '@nestjs/testing'
+import { AdminFactory } from 'test/factories/make-admin'
+import { NotificationFactory } from 'test/factories/make-notification'
+import { RecipientFactory } from 'test/factories/make-recipient'
 import request from 'supertest'
-
 
 describe('Read notification (E2E)', () => {
   let app: INestApplication

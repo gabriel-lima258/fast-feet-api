@@ -41,5 +41,4 @@ export class PrismaNotificationRepository implements NotificationRepository {
     // convertion prisma notification to domain notification
     return PrismaNotificationMapper.toDomain(notification)
   }
-
 }

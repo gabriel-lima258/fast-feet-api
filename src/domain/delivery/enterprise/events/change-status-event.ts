@@ -7,10 +7,10 @@ export class ChangeStatusEvent implements DomainEvent {
   public delivery: Delivery
   public status: string
 
-  constructor(delivery: Delivery, status: string) {
+  constructor(delivery: Delivery) {
     this.ocurredAt = new Date()
     this.delivery = delivery
-    this.status = status
+    this.status = delivery.status
   }
 
   getAggregateId(): UniqueEntityID {

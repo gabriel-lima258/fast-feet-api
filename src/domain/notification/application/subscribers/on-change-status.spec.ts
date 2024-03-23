@@ -42,7 +42,7 @@ describe('On Change Status', () => {
     sendNotificationExecuteSpy = vi.spyOn(sendNotificationUseCase, 'execute')
 
     // create an subscriber for listening
-    new OnChangeStatus(inMemoryRecipientRepository, sendNotificationUseCase)
+    new OnChangeStatus(sendNotificationUseCase, inMemoryRecipientRepository)
   })
 
   it('should send a notification when status from delivery change', async () => {

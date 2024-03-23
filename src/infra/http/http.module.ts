@@ -50,9 +50,10 @@ import { MarkDeliveryAsCompletedController } from './controllers/delivery/mark-d
 import { MarkDeliveryAsCompletedUseCase } from '@/domain/delivery/application/use-cases/delivery/mark-delivery-as-complete'
 import { ReadNotificationController } from './controllers/notification/read-notification.controller'
 import { ReadNotificationUseCase } from '@/domain/notification/application/use-cases/read-notification'
+import { AuthModule } from '../auth/auth.module'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule, StorageModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule, AuthModule],
   controllers: [
     CreateAdminController,
     AuthenticateAdminController,
